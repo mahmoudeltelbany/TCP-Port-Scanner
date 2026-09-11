@@ -2,8 +2,6 @@ import socket
 import ssl
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor, as_completed
-
-# Common service names (fallback when no banner/response is grabbed)
 COMMON_SERVICES = {
     20: "FTP-Data",
     21: "FTP",
@@ -23,14 +21,7 @@ COMMON_SERVICES = {
     8443: "HTTPS",
 }
 
-DEFAULT_TIMEOUT = 0.5  # seconds — 0.0002s (200 microseconds) is not enough time
-                       # for a TCP handshake over anything but localhost, so the
-                       # original script was silently reporting almost every
-                       # port as closed. 0.5s is a much safer default; pass a
-                       # smaller value only if you know you're scanning localhost
-                       # or a very low-latency LAN.
-
-
+DEFAULT_TIMEOUT = 0.5 
 def _http_probe(sock, host):
     """Send a HEAD request over an already-connected socket and pull the
     Server header out of the response, if any."""
